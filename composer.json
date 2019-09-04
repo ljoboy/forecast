@@ -1,0 +1,13 @@
+{
+    "name": "ljoboy/forcast",
+    "description": "Un mini-ERP fait en Codeigniter et Angular",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jonathan Yombo",
+            "email": "jonathanyombo@gmail.com"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require": {}
+}
