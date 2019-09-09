@@ -31,13 +31,13 @@ if(is_cli()){
 }
 
 else if(stristr($host, "localhost") !== FALSE || (stristr($host, "192.168.") !== FALSE)|| (stristr($host, "127.0.0.") !== FALSE)){
-    $config['base_url'] =  $protocol.$host."/s_tracking/";
+    $config['base_url'] =  $protocol.$host."/forcast/";
 }
 
 else{
     $allowed = [];
 
-    $config['base_url'] = in_array($host, $allowed) ? $protocol.$host."/s_tracking/" : "http://".$_SERVER['HTTP_HOST']."/s_tracking/";
+    $config['base_url'] = in_array($host, $allowed) ? $protocol.$host."/forcast/" : "http://".$_SERVER['HTTP_HOST']."/forcast/";
 }
 
 
