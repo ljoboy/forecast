@@ -23,10 +23,18 @@
     <div class="login_wrapper">
         <div class="animate form login_form">
             <section class="login_content">
+                <?php if (isset($this->session->login_error)) : ?>
+                <div class="alert alert-danger alert-dismissible fade in" role="alert" style="color: #e0e0e0; text-shadow: 0 1px 0 #6c6c6c">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <?php echo $this->session->login_error ?>
+                </div>
+                <hr/>
+                <?php endif; ?>
                 <?php echo form_open('auth/login') ?>
                     <h1>Connexion</h1>
                     <div>
-                        <input autocomplete="username" class="form-control" name="username" placeholder="Nom d'utlisateur"
+                        <input autocomplete="username" class="form-control" name="username" placeholder="Nom d'utlisateur ou email"
                                required="" type="text"/>
                     </div>
                     <div>
@@ -54,5 +62,8 @@
         </div>
     </div>
 </div>
+
+<script src="<?php echo base_url('assets/vendors/jquery/dist/jquery.min.js') ?>"></script>
+<script src="<?php echo base_url('assets/vendors/bootstrap/dist/js/bootstrap.min.js') ?>"></script>
 </body>
 </html>
