@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `forcast_db`.`categorie_materiel` (
   `nom_cat_mat` VARCHAR(20) NOT NULL,
   `date_creation_cat` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `details_cat_ma` VARCHAR(100) NULL,
-  `etat_cat_mat` TINYINT(1) NULL,
+  `etat_cat_mat` TINYINT(1) NULL DEFAULT 1,
   PRIMARY KEY (`id_cat_mat`))
 ENGINE = InnoDB;
 
@@ -82,7 +82,7 @@ DROP TABLE IF EXISTS `forcast_db`.`entree` ;
 
 CREATE TABLE IF NOT EXISTS `forcast_db`.`entree` (
   `id_entree` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `quantite_entree` INT ZEROFILL UNSIGNED NOT NULL,
+  `quantite_entree` INT UNSIGNED ZEROFILL NOT NULL,
   `date_entree` DATETIME NOT NULL,
   `date_enregistre` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `etat_entree` TINYINT(1) NOT NULL DEFAULT 1,

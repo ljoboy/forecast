@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS `forcast_db`.`agent` (
   `province` VARCHAR(50) NULL,
   `pays` VARCHAR(50) NOT NULL,
   `departement_id_departement` INT UNSIGNED NOT NULL,
+  `etat` TINYINT(1) NULL DEFAULT 1,
   PRIMARY KEY (`id_agent`),
   UNIQUE INDEX `matricule_UNIQUE` (`matricule` ASC),
   INDEX `fk_agent_departement1_idx` (`departement_id_departement` ASC),
@@ -75,6 +76,7 @@ CREATE TABLE IF NOT EXISTS `forcast_db`.`user` (
   `password` VARCHAR(255) NOT NULL,
   `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `agent_id_agent` INT UNSIGNED NOT NULL,
+  `etat` TINYINT(1) NULL DEFAULT 1,
   PRIMARY KEY (`id_user`),
   INDEX `fk_user_agent1_idx` (`agent_id_agent` ASC),
   CONSTRAINT `fk_user_agent1`
@@ -201,6 +203,7 @@ CREATE TABLE IF NOT EXISTS `forcast_db`.`personne_a_contactee` (
   `email` VARCHAR(255) NULL,
   `relation` VARCHAR(50) NOT NULL,
   `agent_id_agent` INT UNSIGNED NOT NULL,
+  `etat` TINYINT(1) NULL,
   PRIMARY KEY (`id_personne_a_contactee`, `agent_id_agent`),
   INDEX `fk_personne_a_contactee_agent1_idx` (`agent_id_agent` ASC),
   CONSTRAINT `fk_personne_a_contactee_agent1`
