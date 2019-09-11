@@ -6,19 +6,23 @@ class Auth extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        if (isset($this->session->is_connected))
-            redirect();
         $this->load->model('auth_model');
     }
 
 	public function index()
 	{
+	    if (isset($this->session->is_connected))
+            redirect();
+
 	    $data = array();
         $this->load->view('layouts/login', $data, FALSE);
 	}
 
     public function login()
     {
+        if (isset($this->session->is_connected))
+            redirect();
+
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('username', "nom d'utilisateur", 'trim|required', ['required' => 'Le %s est obligatoire']);
@@ -37,15 +41,21 @@ class Auth extends CI_Controller {
 
                 $this->session->set_userdata($array);
                 $this->session->set_flashdata('success', "<h3>Bienvenue " . strtoupper($user->username) . "</h3>");
-                redirect('tache');
+                redirect();
             } else {
                 $this->session->set_flashdata('login_error', "<h3>Echec d'authentification !</h3> Combinaison <strong>username / Mot de passe</strong> Incorrecte !");
-                redirect();
+                $this->index();
             }
         } else {
             $this->session->set_flashdata('login_error', "Veuillez remplir tous les champs obligatoires svp !");
-            redirect();
+            $this->index();
         }
 	}
+
+    function logout()
+    {
+        $this->session->unset_userdata('is_connected');
+        redirect();
+    }
 
 }
