@@ -34,7 +34,7 @@
                 <?php echo form_open('auth/login') ?>
                     <h1>Connexion</h1>
                     <div>
-                        <input autocomplete="username" class="form-control" name="username" placeholder="Nom d'utlisateur ou email"
+                        <input autocomplete="username" class="form-control" name="username" placeholder="Nom d'utlisateur"
                                required="" type="text"/>
                     </div>
                     <div>
