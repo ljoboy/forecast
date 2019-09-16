@@ -41,6 +41,7 @@ class Auth extends CI_Controller {
                     'id' => $user->id_user,
                     'username' => $user->username,
                     'creer_le' => $user->create_time,
+                    'level' => $user->level,
                     'is_connected' => true,
                     'info' => $agent
                 );
