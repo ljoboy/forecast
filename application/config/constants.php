@@ -84,7 +84,7 @@ defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
-defined('APP_NAME')     OR define('APP_NAME', 'forcast firme');
+defined('APP_NAME')     OR define('APP_NAME', 'forecast firme');
 defined('CODERS')       OR define('CODERS', 'Carole & Sarah');
 defined('ADMIN_LEVEL')  OR define('ADMIN_LEVEL', 0);
 defined('GST_LEVEL')    OR define('GST_LEVEL', 1);
