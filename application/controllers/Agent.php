@@ -103,7 +103,9 @@ class Agent extends CI_Controller
 	    'pays' => set_value('pays'),
 	    'departement_id_departement' => set_value('departement_id_departement'),
 	);
-        $this->load->view('agent/agent_form', $data);
+        $data['title'] = "Ajouter un agent";
+        $data['page'] = $this->load->view('agent/agent_form', $data, TRUE);
+        $this->load->view('layouts/main', $data, FALSE);
     }
     
     public function create_action() 
