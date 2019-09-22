@@ -17,6 +17,13 @@
     <link href="<?php echo base_url('assets/vendors/nprogress/nprogress.css') ?>" rel="stylesheet">
     <link rel="shortcut icon" href="<?php echo base_url('assets/production/images/favicon.ico') ?>" type="image/x-icon">
 
+    <!-- Datatables -->
+    <link href="<?php echo base_url('assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet'); ?>">
+    <link href="<?php echo base_url('assets/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet'); ?>">
+    <link href="<?php echo base_url('assets/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet'); ?>">
+    <link href="<?php echo base_url('assets/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet'); ?>">
+    <link href="<?php echo base_url('assets/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet'); ?>">
+
     <!-- Custom Theme Style -->
     <link href="<?php echo base_url('assets/build/css/custom.min.css') ?>" rel="stylesheet">
     <?php if (isset($styles)){
@@ -45,7 +52,7 @@
                     </div>
                     <div class="profile_info">
                         <span>Bienvenue,</span>
-                        <h2>John Doe</h2>
+                        <h2><?php echo ucfirst($this->session->info->prenom)." ".strtoupper($this->session->info->nom) ?></h2>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -55,68 +62,63 @@
 
                 <!-- sidebar menu -->
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                <?php if ($this->session->level == ADMIN_LEVEL || $this->session->level == GRH_LEVEL): ?>
+                    <!--                            Ressources Humaines -->
                     <div class="menu_section">
-                        <h3>General</h3>
+                        <h3>Ressources humaines</h3>
                         <ul class="nav side-menu">
-                            <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-line-chart"></i> Statistiques <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="index.html">Dashboard</a></li>
                                     <li><a href="index2.html">Dashboard2</a></li>
                                     <li><a href="index3.html">Dashboard3</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-user-md"></i> Agents <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="form.html">General Form</a></li>
-                                    <li><a href="form_advanced.html">Advanced Components</a></li>
-                                    <li><a href="form_validation.html">Form Validation</a></li>
-                                    <li><a href="form_wizards.html">Form Wizard</a></li>
-                                    <li><a href="form_upload.html">Form Upload</a></li>
-                                    <li><a href="form_buttons.html">Form Buttons</a></li>
+                                    <li><a href="<?php echo site_url('agent/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('agent/create') ?>">Ajouter</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-desktop"></i> UI Elements <span
-                                            class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-building"></i> Départements <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="general_elements.html">General Elements</a></li>
-                                    <li><a href="media_gallery.html">Media Gallery</a></li>
-                                    <li><a href="typography.html">Typography</a></li>
-                                    <li><a href="icons.html">Icons</a></li>
-                                    <li><a href="glyphicons.html">Glyphicons</a></li>
-                                    <li><a href="widgets.html">Widgets</a></li>
-                                    <li><a href="invoice.html">Invoice</a></li>
-                                    <li><a href="inbox.html">Inbox</a></li>
-                                    <li><a href="calendar.html">Calendar</a></li>
+                                    <li><a href="<?php echo site_url('departement/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('departement/create') ?>">Ajouter</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-user-md"></i> Attribution de tâches <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="tables.html">Tables</a></li>
-                                    <li><a href="tables_dynamic.html">Table Dynamic</a></li>
+                                    <li><a href="<?php echo site_url('agent_has_tache/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('agent_has_tache/create') ?>">Ajouter</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation <span
-                                            class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-user-md"></i> Planig congés <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="chartjs.html">Chart JS</a></li>
-                                    <li><a href="chartjs2.html">Chart JS2</a></li>
-                                    <li><a href="morisjs.html">Moris JS</a></li>
-                                    <li><a href="echarts.html">ECharts</a></li>
-                                    <li><a href="other_charts.html">Other Charts</a></li>
+                                    <li><a href="<?php echo site_url('conge/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('conge/create') ?>">Ajouter</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-clone"></i>Layouts <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-user-md"></i> Affectation <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
-                                    <li><a href="fixed_footer.html">Fixed Footer</a></li>
+                                    <li><a href="<?php echo site_url('affectation/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('affectation/create') ?>">Ajouter</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-user-md"></i> Connaissance linguistiques <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="<?php echo site_url('connaissance linguistique/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('connaissance linguistique/create') ?>">Ajouter</a></li>
                                 </ul>
                             </li>
                         </ul>
                     </div>
+                <?php endif; ?>
+                <?php if ($this->session->level == ADMIN_LEVEL || $this->session->level == GST_LEVEL): ?>
+                    <!--                    Stock -->
                     <div class="menu_section">
-                        <h3>Live On</h3>
+                        <h3>Stocks</h3>
                         <ul class="nav side-menu">
-                            <li><a><i class="fa fa-bug"></i> Additional Pages <span
+                            <li><a><i class="fa fa-bug"></i> Statistiques <span
                                             class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="e_commerce.html">E-commerce</a></li>
@@ -126,39 +128,67 @@
                                     <li><a href="profile.html">Profile</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-building"></i> Demandes <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="page_403.html">403 Error</a></li>
-                                    <li><a href="page_404.html">404 Error</a></li>
-                                    <li><a href="page_500.html">500 Error</a></li>
-                                    <li><a href="plain_page.html">Plain Page</a></li>
-                                    <li><a href="login.html">Login Page</a></li>
-                                    <li><a href="pricing_tables.html">Pricing Tables</a></li>
+                                    <li><a href="<?php echo site_url('demande/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('demande/create') ?>">Ajouter</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span
-                                            class="fa fa-chevron-down"></span></a>
+
+                            <li><a><i class="fa fa-building"></i> Materiels entrés <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="#level1_1">Level One</a>
-                                    <li><a>Level One<span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="level2.html">Level Two</a>
-                                            </li>
-                                            <li><a href="#level2_1">Level Two</a>
-                                            </li>
-                                            <li><a href="#level2_2">Level Two</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#level1_2">Level One</a>
-                                    </li>
+                                    <li><a href="<?php echo site_url('entree/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('entree/create') ?>">Ajouter</a></li>
                                 </ul>
                             </li>
-                            <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span
-                                            class="label label-success pull-right">Coming Soon</span></a></li>
+                            <li><a><i class="fa fa-building"></i> Materiels en utilisation <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="<?php echo site_url('sortie/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('sortie/create') ?>">Ajouter</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-building"></i> Types des materiels <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="<?php echo site_url('categorie_materiel/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('categorie_materiel/create') ?>">Ajouter</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-building"></i> Listes des materiels <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="<?php echo site_url('materiel/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('materiel/create') ?>">Ajouter</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-building"></i> Livraisons <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="<?php echo site_url('livraison/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('livraison/create') ?>">Ajouter</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-building"></i> Fournisseurs <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="<?php echo site_url('fournisseurt/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('fournisseur/create') ?>">Ajouter</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
-
+                <?php endif; ?>
+                    <?php if ($this->session->level == ADMIN_LEVEL): ?>
+                        <!--                    Admin  -->
+                        <div class="menu_section">
+                            <h3>Admin Panel</h3>
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a><i class="fa fa-building"></i> Users <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="<?php echo site_url('user/index') ?>">Lister</a></li>
+                                        <li><a href="<?php echo site_url('user/create') ?>">Ajouter</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <!-- /sidebar menu -->
 
@@ -193,85 +223,18 @@
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
                                aria-expanded="false">
-                                <img src="<?php echo base_url('assets/production/images/user.png') ?>" alt="">John Doe
+                                <img src="<?php echo base_url('assets/production/images/user.png') ?>" alt="...">
+                                <?php echo strtoupper($this->session->username) ?>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="javascript:;"> Profile</a></li>
+                                <li><a href="<?php site_url('auth/profil') ?>"> Profil</a></li>
                                 <li>
-                                    <a href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>Settings</span>
+                                    <a href="<?php site_url('auth/edit_profil') ?>">
+                                        <span>Modifier profil</span>
                                     </a>
                                 </li>
-                                <li><a href="javascript:;">Help</a></li>
                                 <li><a href="<?php echo site_url('auth/logout')?>"><i class="fa fa-sign-out pull-right"></i> Déconnexion</a></li>
-                            </ul>
-                        </li>
-
-                        <li role="presentation" class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
-                               aria-expanded="false">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="badge bg-green">6</span>
-                            </a>
-                            <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="<?php echo base_url('assets/production/images/user.png') ?>" alt="Profile Image"/></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="<?php echo base_url('assets/production/images/user.png') ?>" alt="Profile Image"/></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="<?php echo base_url('assets/production/images/user.png') ?>" alt="Profile Image"/></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="<?php echo base_url('assets/production/images/user.png') ?>" alt="Profile Image"/></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <div class="text-center">
-                                        <a>
-                                            <strong>See All Alerts</strong>
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    </div>
-                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -289,14 +252,6 @@
                     </div>
 
                     <div class="title_right">
-                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search for...">
-                                <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -340,8 +295,27 @@
 <!-- NProgress -->
 <script src="<?php echo base_url('assets/vendors/nprogress/nprogress.js') ?>"></script>
 
+<!-- Datatables -->
+<script src="<?php echo base_url('assets/vendors/datatables.net/js/jquery.dataTables.min.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/datatables.net-buttons/js/dataTables.buttons.min.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/datatables.net-buttons/js/buttons.flash.min.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/datatables.net-buttons/js/buttons.html5.min.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/datatables.net-buttons/js/buttons.print.min.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/datatables.net-responsive/js/dataTables.responsive.min.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/datatables.net-scroller/js/dataTables.scroller.min.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/jszip/dist/jszip.min.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/pdfmake/build/pdfmake.min.js');?>"></script>
+<script src="<?php echo base_url('assets/vendors/pdfmake/build/vfs_fonts.js');?>"></script>
+<script>
+
+</script>
 <!-- Custom Theme Scripts -->
-<script src="<?php echo base_url('assets/build/js/custom.min.js') ?>"></script>
+<script src="<?php echo base_url('assets/build/js/custom.js') ?>"></script>
 <?php if (isset($javascripts)){
     foreach ($javascripts as $javascript) {
         $javascript = base_url('assets/custom/js/'.$javascript);
