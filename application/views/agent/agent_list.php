@@ -43,25 +43,25 @@
                     ?>
                     <tr>
                         <td width="80px"><?php echo ++$start ?></td>
-                        <td><?php echo $agent->nom ?></td>
-                        <td><?php echo $agent->postnom ?></td>
-                        <td><?php echo $agent->prenom ?></td>
-                        <td><?php echo $agent->etat_civil ?></td>
-                        <td><?php echo $agent->matricule ?></td>
+                        <td><?php echo strtoupper($agent->nom) ?></td>
+                        <td><?php echo ucfirst($agent->postnom) ?></td>
+                        <td><?php echo ucfirst($agent->prenom) ?></td>
+                        <td><?php echo ucfirst($agent->etat_civil) ?></td>
+                        <td><?php echo strtoupper($agent->matricule) ?></td>
                         <td><?php echo $agent->adresse ?></td>
                         <td><?php echo $agent->email ?></td>
                         <td><?php echo nice_date($agent->date_de_naissance, 'd-m-Y') ?></td>
-                        <td><?php echo $agent->lieu_de_naissance ?></td>
+                        <td><?php echo ucfirst($agent->lieu_de_naissance) ?></td>
                         <td><?php echo $agent->telephone ?></td>
-                        <td><?php echo $agent->genre ?></td>
+                        <td><?php echo ucfirst($agent->genre) ?></td>
                         <td><?php echo nice_date($agent->date_entree, 'd-m-Y') ?></td>
                         <td><?php echo nice_date($agent->date_confirmation, 'd-m-Y') ?></td>
-                        <td><?php echo $agent->ville ?></td>
-                        <td><?php echo $agent->province ?></td>
-                        <td><?php echo $agent->pays ?></td>
+                        <td><?php echo ucfirst($agent->ville) ?></td>
+                        <td><?php echo ucfirst($agent->province) ?></td>
+                        <td><?php echo strtoupper($agent->pays) ?></td>
                         <td>
                             <?php
-                            echo anchor(site_url('agent/read/'.$agent->id_agent),'Profil');
+                            echo anchor(site_url('agent/profil/'.$agent->id_agent),'Profil');
                             echo ' | ';
                             echo anchor(site_url('agent/update/'.$agent->id_agent),'Modifier');
                             echo ' | ';

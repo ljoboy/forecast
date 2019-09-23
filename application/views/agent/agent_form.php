@@ -1,5 +1,3 @@
-
-        <h2 style="margin-top:0px">Agent <?php echo $button ?></h2>
         <form action="<?php echo $action; ?>" method="post">
 	    <div class="form-group">
             <label for="varchar">Nom <?php echo form_error('nom') ?></label>
