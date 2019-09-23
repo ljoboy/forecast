@@ -36,19 +36,24 @@ class Auth extends CI_Controller {
             $user = $this->auth_model->login($username, $password);
 
             if ($user != null) {
-                $agent = (array) $this->agent_model->get_by_id($user->agent_id_agent);
-                $array = array(
-                    'id' => $user->id_user,
-                    'username' => $user->username,
-                    'creer_le' => $user->create_time,
-                    'level' => $user->level,
-                    'is_connected' => true,
-                    'info' => $agent
-                );
+                $agent = $this->agent_model->get_by_id($user->agent_id_agent);
+                if ($agent == null || $agent->etat == 0){
+                    $this->session->set_flashdata('login_error', "<h3>Echec d'authentification !</h3> Combinaison <strong>username / Mot de passe</strong> Incorrecte !");
+                    $this->index();
+                }else{
+                    $array = array(
+                        'id' => $user->id_user,
+                        'username' => $user->username,
+                        'creer_le' => $user->create_time,
+                        'level' => $user->level,
+                        'is_connected' => true,
+                        'info' => $agent
+                    );
 
-                $this->session->set_userdata($array);
-                $this->session->set_flashdata('success', "<h3>Bienvenue " . strtoupper($user->username) . "</h3>");
-                redirect();
+                    $this->session->set_userdata($array);
+                    $this->session->set_flashdata('success', "<h3>Bienvenue " . strtoupper($user->username) . "</h3>");
+                    redirect();
+                }
             } else {
                 $this->session->set_flashdata('login_error', "<h3>Echec d'authentification !</h3> Combinaison <strong>username / Mot de passe</strong> Incorrecte !");
                 $this->index();
@@ -63,6 +68,16 @@ class Auth extends CI_Controller {
     {
         $this->session->unset_userdata('is_connected');
         redirect();
+    }
+
+    public function profil()
+    {
+        
+    }
+
+    public function edit_profil()
+    {
+        
     }
 
 }
