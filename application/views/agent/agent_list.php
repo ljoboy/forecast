@@ -42,7 +42,7 @@
                 {
                     ?>
                     <tr>
-                        <td width="80px"><?php echo ++$start ?></td>
+                        <td><?php echo ++$start ?></td>
                         <td><?php echo strtoupper($agent->nom) ?></td>
                         <td><?php echo ucfirst($agent->postnom) ?></td>
                         <td><?php echo ucfirst($agent->prenom) ?></td>

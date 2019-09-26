@@ -68,8 +68,12 @@
             <input type="text" class="form-control" name="pays" id="pays" placeholder="Pays" value="<?php echo $pays; ?>" />
         </div>
 	    <div class="form-group">
-            <label for="int">Departement Id Departement <?php echo form_error('departement_id_departement') ?></label>
-            <input type="text" class="form-control" name="departement_id_departement" id="departement_id_departement" placeholder="Departement Id Departement" value="<?php echo $departement_id_departement; ?>" />
+            <label for="int">Departement <?php echo form_error('departement_id_departement') ?></label>
+            <select name=departement_id_departement"" id="departement_id_departement" class="form-control">
+                <?php foreach ($departements as $departement) {
+                    echo "<option value='$departement->id_departement'>$departement->nom_departement</option>";
+                }?>
+            </select>
         </div>
 	    <input type="hidden" name="id_agent" value="<?php echo $id_agent; ?>" /> 
 	    <button type="submit" class="btn btn-primary"><?php echo $button ?></button> 
