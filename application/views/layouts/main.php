@@ -70,14 +70,11 @@
                             <li><a><i class="fa fa-line-chart"></i> Statistiques <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="index.html">Dashboard</a></li>
-                                    <li><a href="index2.html">Dashboard2</a></li>
-                                    <li><a href="index3.html">Dashboard3</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-user-md"></i> Agents <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('agent/index') ?>">Lister</a></li>
-                                    <li><a href="<?php echo site_url('agent/create') ?>">Ajouter</a></li>
+                                    <li><a href="<?php echo site_url('agent/index') ?>">Liste des agents</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-building"></i> Départements <span class="fa fa-chevron-down"></span></a>
@@ -86,28 +83,14 @@
                                     <li><a href="<?php echo site_url('departement/create') ?>">Ajouter</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-user-md"></i> Attribution de tâches <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-building"></i> Taches <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('agent_has_tache/index') ?>">Lister</a></li>
-                                    <li><a href="<?php echo site_url('agent_has_tache/create') ?>">Ajouter</a></li>
+                                    <li><a href="<?php echo site_url('tache/index') ?>">Liste des tâches</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-user-md"></i> Planig congés <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-building"></i> Postes <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('conge/index') ?>">Lister</a></li>
-                                    <li><a href="<?php echo site_url('conge/create') ?>">Ajouter</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-user-md"></i> Affectation <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('affectation/index') ?>">Lister</a></li>
-                                    <li><a href="<?php echo site_url('affectation/create') ?>">Ajouter</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-user-md"></i> Connaissance linguistiques <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('connaissance linguistique/index') ?>">Lister</a></li>
-                                    <li><a href="<?php echo site_url('connaissance linguistique/create') ?>">Ajouter</a></li>
+                                    <li><a href="<?php echo site_url('postes/index') ?>">Liste des postes</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -122,53 +105,24 @@
                                             class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="e_commerce.html">E-commerce</a></li>
-                                    <li><a href="projects.html">Projects</a></li>
-                                    <li><a href="project_detail.html">Project Detail</a></li>
-                                    <li><a href="contacts.html">Contacts</a></li>
-                                    <li><a href="profile.html">Profile</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-building"></i> Demandes <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('demande/index') ?>">Lister</a></li>
-                                    <li><a href="<?php echo site_url('demande/create') ?>">Ajouter</a></li>
+                                    <li><a href="<?php echo site_url('demande/index') ?>">Liste des demandes</a></li>
                                 </ul>
                             </li>
-
-                            <li><a><i class="fa fa-building"></i> Materiels entrés <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-building"></i> Materiels <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('entree/index') ?>">Lister</a></li>
-                                    <li><a href="<?php echo site_url('entree/create') ?>">Ajouter</a></li>
+                                    <li><a href="<?php echo site_url('demande/index') ?>">Liste des materiels</a></li>
+                                    <li><a href="<?php echo site_url('demande/create') ?>">Categories</a></li>
+                                    <li><a href="<?php echo site_url('demande/create') ?>">Fournisseurs</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-building"></i> Materiels en utilisation <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-building"></i> Besoins <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('sortie/index') ?>">Lister</a></li>
-                                    <li><a href="<?php echo site_url('sortie/create') ?>">Ajouter</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-building"></i> Types des materiels <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('categorie_materiel/index') ?>">Lister</a></li>
-                                    <li><a href="<?php echo site_url('categorie_materiel/create') ?>">Ajouter</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-building"></i> Listes des materiels <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('materiel/index') ?>">Lister</a></li>
-                                    <li><a href="<?php echo site_url('materiel/create') ?>">Ajouter</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-building"></i> Livraisons <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('livraison/index') ?>">Lister</a></li>
-                                    <li><a href="<?php echo site_url('livraison/create') ?>">Ajouter</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-building"></i> Fournisseurs <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('fournisseurt/index') ?>">Lister</a></li>
-                                    <li><a href="<?php echo site_url('fournisseur/create') ?>">Ajouter</a></li>
+                                    <li><a href="<?php echo site_url('besoin/index') ?>">Lister</a></li>
+                                    <li><a href="<?php echo site_url('besoin/create') ?>">Ajouter</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -311,11 +265,16 @@
 <script src="<?php echo base_url('assets/vendors/jszip/dist/jszip.min.js');?>"></script>
 <script src="<?php echo base_url('assets/vendors/pdfmake/build/pdfmake.min.js');?>"></script>
 <script src="<?php echo base_url('assets/vendors/pdfmake/build/vfs_fonts.js');?>"></script>
-<script>
 
-</script>
+<!-- morris.js -->
+<script src="<?php echo base_url('assets/vendors/raphael/raphael.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/vendors/morris.js/morris.min.js'); ?>"></script>
+<!-- bootstrap-progressbar -->
+<script src="<?php echo base_url('assets/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js'); ?>"></script>
+
 <!-- Custom Theme Scripts -->
 <script src="<?php echo base_url('assets/build/js/custom.js') ?>"></script>
+
 <?php if (isset($javascripts)){
     foreach ($javascripts as $javascript) {
         $javascript = base_url('assets/custom/js/'.$javascript);
