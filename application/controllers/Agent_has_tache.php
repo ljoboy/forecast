@@ -59,31 +59,35 @@ class Agent_has_tache extends CI_Controller
         }
     }
 
-    public function create() 
+    public function create($id)
     {
+        $this->load->model('Agent_model');
         $data = array(
-            'button' => 'Create',
-            'action' => site_url('agent_has_tache/create_action'),
-	    'agent_id_agent' => set_value('agent_id_agent'),
-	    'tache_id_tache' => set_value('tache_id_tache'),
-	);
+            'action' => site_url('agent_has_tache/create_action/'.$id),
+            'agent_id_agent' => set_value('agent_id_agent'),
+            'tache_id_tache' => set_value('tache_id_tache'),
+            'agents' => $this->Agent_model->get_all(),
+        );
         $data['page'] = $this->load->view('agent_has_tache/agent_has_tache_form', $data, TRUE);
         $this->load->view('layouts/main', $data, FALSE);
     }
     
-    public function create_action() 
+    public function create_action($id)
     {
         $this->_rules();
 
         if ($this->form_validation->run() == FALSE) {
-            $this->create();
+            $this->create($id);
         } else {
-            $data = array(
-	    );
-
-            $this->Agent_has_tache_model->insert($data);
-            $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('agent_has_tache'));
+            $agents = $this->input->post('agent_id_agent', TRUE);
+            foreach ($agents as $agent) {
+                $data = array(
+                    'agent_id_agent' => $agent,
+                    'tache_id_tache' => $id
+                );
+                $this->Agent_has_tache_model->insert($data);
+            }
+            redirect(site_url('tache'));
         }
     }
     
@@ -95,9 +99,9 @@ class Agent_has_tache extends CI_Controller
             $data = array(
                 'button' => 'Update',
                 'action' => site_url('agent_has_tache/update_action'),
-		'agent_id_agent' => set_value('agent_id_agent', $row->agent_id_agent),
-		'tache_id_tache' => set_value('tache_id_tache', $row->tache_id_tache),
-	    );
+                'agent_id_agent' => set_value('agent_id_agent', $row->agent_id_agent),
+                'tache_id_tache' => set_value('tache_id_tache', $row->tache_id_tache),
+            );
             $data['page'] = $this->load->view('agent_has_tache/agent_has_tache_form', $data, TRUE);
             $this->load->view('layouts/main', $data, FALSE);
         } else {
@@ -139,7 +143,7 @@ class Agent_has_tache extends CI_Controller
     public function _rules() 
     {
 
-	$this->form_validation->set_rules('agent_id_agent', 'agent_id_agent', 'trim');
+	$this->form_validation->set_rules('agent_id_agent', 'agent_id_agent', 'trimf');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 

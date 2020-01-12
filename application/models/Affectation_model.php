@@ -73,6 +73,13 @@ class Affectation_model extends CI_Model
         $this->db->update($this->table);
     }
 
+    public function get_by_user_id($id)
+    {
+        $this->db->where('agent_id_agent', $id);
+        $this->db->where('is_actif', 1);
+        return $this->db->get($this->table)->row();
+    }
+
 }
 
 /* End of file Affectation_model.php */

@@ -9,36 +9,18 @@ class Demande extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Demande_model');
+        $this->load->model('Agent_model');
+        $this->load->model('Materiel_model');
         $this->load->library('form_validation');
     }
 
     public function index()
     {
-        $q = urldecode($this->input->get('q', TRUE));
-        $start = intval($this->input->get('start'));
-        
-        if ($q <> '') {
-            $config['base_url'] = base_url() . 'demande/index.html?q=' . urlencode($q);
-            $config['first_url'] = base_url() . 'demande/index.html?q=' . urlencode($q);
-        } else {
-            $config['base_url'] = base_url() . 'demande/index.html';
-            $config['first_url'] = base_url() . 'demande/index.html';
-        }
 
-        $config['per_page'] = 10;
-        $config['page_query_string'] = TRUE;
-        $config['total_rows'] = $this->Demande_model->total_rows($q);
-        $demande = $this->Demande_model->get_limit_data($config['per_page'], $start, $q);
-
-        $this->load->library('pagination');
-        $this->pagination->initialize($config);
 
         $data = array(
-            'demande_data' => $demande,
-            'q' => $q,
-            'pagination' => $this->pagination->create_links(),
-            'total_rows' => $config['total_rows'],
-            'start' => $start,
+            'demande_data' => $this->Demande_model->get_all(),
+            'start' => 0,
         );
         $data['page'] = $this->load->view('demande/demande_list', $data, TRUE);
         $this->load->view('layouts/main', $data, FALSE);
@@ -67,15 +49,17 @@ class Demande extends CI_Controller
     public function create() 
     {
         $data = array(
-            'button' => 'Create',
             'action' => site_url('demande/create_action'),
-	    'num_demande' => set_value('num_demande'),
-	    'date_creation_demande' => set_value('date_creation_demande'),
-	    'description_demande' => set_value('description_demande'),
-	    'code_materiel' => set_value('code_materiel'),
-	    'quantite_demande' => set_value('quantite_demande'),
-	    'etat_demande' => set_value('etat_demande'),
-	);
+            'num_demande' => set_value('num_demande'),
+            'description_demande' => set_value('description_demande'),
+            'code_materiel' => set_value('code_materiel'),
+            'quantite_demande' => set_value('quantite_demande'),
+            'date_debut' => set_value('date_debut'),
+            'date_fin' => set_value('date_fin'),
+            'agent' => set_value('agent'),
+            'agents' => $this->Agent_model->get_all(),
+            'materiels' => $this->Materiel_model->get_all(),
+        );
         $data['page'] = $this->load->view('demande/demande_form', $data, TRUE);
         $this->load->view('layouts/main', $data, FALSE);
     }
@@ -88,12 +72,13 @@ class Demande extends CI_Controller
             $this->create();
         } else {
             $data = array(
-		'date_creation_demande' => $this->input->post('date_creation_demande',TRUE),
-		'description_demande' => $this->input->post('description_demande',TRUE),
-		'code_materiel' => $this->input->post('code_materiel',TRUE),
-		'quantite_demande' => $this->input->post('quantite_demande',TRUE),
-		'etat_demande' => $this->input->post('etat_demande',TRUE),
-	    );
+                'description_demande' => $this->input->post('description_demande', TRUE),
+                'code_materiel' => $this->input->post('code_materiel', TRUE),
+                'quantite_demande' => $this->input->post('quantite_demande', TRUE),
+                'date_debut' => $this->input->post('date_debut', TRUE),
+                'date_fin' => $this->input->post('date_fin', TRUE),
+                'agent_id_agent' => $this->input->post('agent', TRUE),
+            );
 
             $this->Demande_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
@@ -159,16 +144,31 @@ class Demande extends CI_Controller
         }
     }
 
+    public function accepted($id)
+    {
+        $row = $this->Demande_model->get_by_id($id);
+
+        if ($row) {
+            $this->Demande_model->accepted($id);
+            $this->session->set_flashdata('message', 'Delete Record Success');
+            redirect(site_url('demande'));
+        } else {
+            $this->session->set_flashdata('message', 'Record Not Found');
+            redirect(site_url('demande'));
+        }
+    }
+
     public function _rules() 
     {
-	$this->form_validation->set_rules('date_creation_demande', 'date creation demande', 'trim|required');
-	$this->form_validation->set_rules('description_demande', 'description demande', 'trim|required');
-	$this->form_validation->set_rules('code_materiel', 'code materiel', 'trim|required');
-	$this->form_validation->set_rules('quantite_demande', 'quantite demande', 'trim|required');
-	$this->form_validation->set_rules('etat_demande', 'etat demande', 'trim|required');
+        $this->form_validation->set_rules('description_demande', 'description demande', 'trim|required');
+        $this->form_validation->set_rules('code_materiel', 'code materiel', 'trim|required');
+        $this->form_validation->set_rules('date_debut', 'date debut', 'trim|required');
+        $this->form_validation->set_rules('date_fin', 'date fin', 'trim|required');
+        $this->form_validation->set_rules('quantite_demande', 'quantite demande', 'trim|required|integer');
+        $this->form_validation->set_rules('agent', 'agent', 'trim|required|integer');
 
-	$this->form_validation->set_rules('num_demande', 'num_demande', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+        $this->form_validation->set_rules('num_demande', 'num_demande', 'trim');
+        $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
     public function excel()

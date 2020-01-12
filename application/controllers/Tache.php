@@ -9,38 +9,20 @@ class Tache extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Tache_model');
+        $this->load->model('Agent_has_tache_model');
+        $this->load->model('Departement_model');
+        $this->load->model('Agent_model');
         $this->load->library('form_validation');
     }
 
     public function index()
     {
-        $q = urldecode($this->input->get('q', TRUE));
-        $start = intval($this->input->get('start'));
-        
-        if ($q <> '') {
-            $config['base_url'] = base_url() . 'tache/index.html?q=' . urlencode($q);
-            $config['first_url'] = base_url() . 'tache/index.html?q=' . urlencode($q);
-        } else {
-            $config['base_url'] = base_url() . 'tache/index.html';
-            $config['first_url'] = base_url() . 'tache/index.html';
-        }
-
-        $config['per_page'] = 10;
-        $config['page_query_string'] = TRUE;
-        $config['total_rows'] = $this->Tache_model->total_rows($q);
-        $tache = $this->Tache_model->get_limit_data($config['per_page'], $start, $q);
-
-        $this->load->library('pagination');
-        $this->pagination->initialize($config);
-
         $data = array(
-            'tache_data' => $tache,
-            'q' => $q,
-            'pagination' => $this->pagination->create_links(),
-            'total_rows' => $config['total_rows'],
-            'start' => $start,
+            'taches' => $this->Tache_model->get_all(),
+            'affectes' => $this->Agent_has_tache_model->get_all(),
         );
-        $this->load->view('tache/tache_list', $data);
+        $data['page'] = $this->load->view('tache/tache_list', $data, TRUE);
+        $this->load->view('layouts/main', $data, FALSE);
     }
 
     public function read($id) 
@@ -48,14 +30,12 @@ class Tache extends CI_Controller
         $row = $this->Tache_model->get_by_id($id);
         if ($row) {
             $data = array(
-		'id_tache' => $row->id_tache,
-		'tache' => $row->tache,
-		'date_debut' => $row->date_debut,
-		'date_fin' => $row->date_fin,
-		'date_assignement' => $row->date_assignement,
-		'etat' => $row->etat,
-		'details' => $row->details,
-	    );
+                'id_tache' => $row->id_tache,
+                'tache' => $row->tache,
+                'date_debut' => $row->date_debut,
+                'date_fin' => $row->date_fin,
+                'details' => $row->details,
+            );
             $data['page'] = $this->load->view('tache/tache_read', $data, TRUE);
             $this->load->view('layouts/main', $data, FALSE);
         } else {
@@ -69,14 +49,13 @@ class Tache extends CI_Controller
         $data = array(
             'button' => 'Create',
             'action' => site_url('tache/create_action'),
-	    'id_tache' => set_value('id_tache'),
-	    'tache' => set_value('tache'),
-	    'date_debut' => set_value('date_debut'),
-	    'date_fin' => set_value('date_fin'),
-	    'date_assignement' => set_value('date_assignement'),
-	    'etat' => set_value('etat'),
-	    'details' => set_value('details'),
-	);
+            'id_tache' => set_value('id_tache'),
+            'tache' => set_value('tache'),
+            'date_debut' => set_value('date_debut'),
+            'date_fin' => set_value('date_fin'),
+            'details' => set_value('details'),
+            'departements' => $this->Departement_model->get_all()
+	    );
         $data['page'] = $this->load->view('tache/tache_form', $data, TRUE);
         $this->load->view('layouts/main', $data, FALSE);
     }
@@ -89,13 +68,12 @@ class Tache extends CI_Controller
             $this->create();
         } else {
             $data = array(
-		'tache' => $this->input->post('tache',TRUE),
-		'date_debut' => $this->input->post('date_debut',TRUE),
-		'date_fin' => $this->input->post('date_fin',TRUE),
-		'date_assignement' => $this->input->post('date_assignement',TRUE),
-		'etat' => $this->input->post('etat',TRUE),
-		'details' => $this->input->post('details',TRUE),
-	    );
+                'tache' => $this->input->post('tache',TRUE),
+                'date_debut' => nice_date($this->input->post('date_debut',TRUE), 'Y-m-d'),
+                'date_fin' => nice_date($this->input->post('date_fin',TRUE), 'Y-m-d'),
+                'details' => $this->input->post('details',TRUE),
+                'departement_id_departement' => $this->input->post('departement', TRUE)
+            );
 
             $this->Tache_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
@@ -111,14 +89,12 @@ class Tache extends CI_Controller
             $data = array(
                 'button' => 'Update',
                 'action' => site_url('tache/update_action'),
-		'id_tache' => set_value('id_tache', $row->id_tache),
-		'tache' => set_value('tache', $row->tache),
-		'date_debut' => set_value('date_debut', $row->date_debut),
-		'date_fin' => set_value('date_fin', $row->date_fin),
-		'date_assignement' => set_value('date_assignement', $row->date_assignement),
-		'etat' => set_value('etat', $row->etat),
-		'details' => set_value('details', $row->details),
-	    );
+                'id_tache' => set_value('id_tache', $row->id_tache),
+                'tache' => set_value('tache', $row->tache),
+                'date_debut' => set_value('date_debut', $row->date_debut),
+                'date_fin' => set_value('date_fin', $row->date_fin),
+                'details' => set_value('details', $row->details),
+            );
             $data['page'] = $this->load->view('tache/tache_form', $data, TRUE);
             $this->load->view('layouts/main', $data, FALSE);
         } else {
@@ -135,13 +111,11 @@ class Tache extends CI_Controller
             $this->update($this->input->post('id_tache', TRUE));
         } else {
             $data = array(
-		'tache' => $this->input->post('tache',TRUE),
-		'date_debut' => $this->input->post('date_debut',TRUE),
-		'date_fin' => $this->input->post('date_fin',TRUE),
-		'date_assignement' => $this->input->post('date_assignement',TRUE),
-		'etat' => $this->input->post('etat',TRUE),
-		'details' => $this->input->post('details',TRUE),
-	    );
+                'tache' => $this->input->post('tache',TRUE),
+                'date_debut' => $this->input->post('date_debut',TRUE),
+                'date_fin' => $this->input->post('date_fin',TRUE),
+                'details' => $this->input->post('details',TRUE),
+            );
 
             $this->Tache_model->update($this->input->post('id_tache', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
@@ -163,17 +137,25 @@ class Tache extends CI_Controller
         }
     }
 
+    public function finir($id)
+    {
+        $row = $this->Tache_model->get_by_id($id);
+
+        if ($row) {
+            $this->Tache_model->finir($id);
+        }
+        redirect(site_url('tache'));
+    }
+
     public function _rules() 
     {
-	$this->form_validation->set_rules('tache', 'tache', 'trim|required');
-	$this->form_validation->set_rules('date_debut', 'date debut', 'trim|required');
-	$this->form_validation->set_rules('date_fin', 'date fin', 'trim|required');
-	$this->form_validation->set_rules('date_assignement', 'date assignement', 'trim|required');
-	$this->form_validation->set_rules('etat', 'etat', 'trim|required');
-	$this->form_validation->set_rules('details', 'details', 'trim|required');
+        $this->form_validation->set_rules('tache', 'tache', 'trim|required');
+        $this->form_validation->set_rules('date_debut', 'date debut', 'trim|required');
+        $this->form_validation->set_rules('date_fin', 'date fin', 'trim|required');
+        $this->form_validation->set_rules('details', 'details', 'trim|required');
 
-	$this->form_validation->set_rules('id_tache', 'id_tache', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+        $this->form_validation->set_rules('id_tache', 'id_tache', 'trim');
+        $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
     public function excel()
@@ -198,26 +180,26 @@ class Tache extends CI_Controller
 
         $kolomhead = 0;
         xlsWriteLabel($tablehead, $kolomhead++, "No");
-	xlsWriteLabel($tablehead, $kolomhead++, "Tache");
-	xlsWriteLabel($tablehead, $kolomhead++, "Date Debut");
-	xlsWriteLabel($tablehead, $kolomhead++, "Date Fin");
-	xlsWriteLabel($tablehead, $kolomhead++, "Date Assignement");
-	xlsWriteLabel($tablehead, $kolomhead++, "Etat");
-	xlsWriteLabel($tablehead, $kolomhead++, "Details");
+        xlsWriteLabel($tablehead, $kolomhead++, "Tache");
+        xlsWriteLabel($tablehead, $kolomhead++, "Date Debut");
+        xlsWriteLabel($tablehead, $kolomhead++, "Date Fin");
+        xlsWriteLabel($tablehead, $kolomhead++, "Date Assignement");
+        xlsWriteLabel($tablehead, $kolomhead++, "Etat");
+        xlsWriteLabel($tablehead, $kolomhead++, "Details");
 
-	foreach ($this->Tache_model->get_all() as $data) {
+        foreach ($this->Tache_model->get_all() as $data) {
             $kolombody = 0;
 
             //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
             xlsWriteNumber($tablebody, $kolombody++, $nourut);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->tache);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->date_debut);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->date_fin);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->date_assignement);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->etat);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->details);
+            xlsWriteLabel($tablebody, $kolombody++, $data->tache);
+            xlsWriteLabel($tablebody, $kolombody++, $data->date_debut);
+            xlsWriteLabel($tablebody, $kolombody++, $data->date_fin);
+            xlsWriteLabel($tablebody, $kolombody++, $data->date_assignement);
+            xlsWriteLabel($tablebody, $kolombody++, $data->etat);
+            xlsWriteLabel($tablebody, $kolombody++, $data->details);
 
-	    $tablebody++;
+            $tablebody++;
             $nourut++;
         }
 

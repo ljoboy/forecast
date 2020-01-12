@@ -14,31 +14,12 @@ class Besoin extends CI_Controller
 
     public function index()
     {
-        $q = urldecode($this->input->get('q', TRUE));
-        $start = intval($this->input->get('start'));
-        
-        if ($q <> '') {
-            $config['base_url'] = base_url() . 'besoin/index.html?q=' . urlencode($q);
-            $config['first_url'] = base_url() . 'besoin/index.html?q=' . urlencode($q);
-        } else {
-            $config['base_url'] = base_url() . 'besoin/index.html';
-            $config['first_url'] = base_url() . 'besoin/index.html';
-        }
 
-        $config['per_page'] = 10;
-        $config['page_query_string'] = TRUE;
-        $config['total_rows'] = $this->Besoin_model->total_rows($q);
-        $besoin = $this->Besoin_model->get_limit_data($config['per_page'], $start, $q);
 
-        $this->load->library('pagination');
-        $this->pagination->initialize($config);
 
         $data = array(
-            'besoin_data' => $besoin,
-            'q' => $q,
-            'pagination' => $this->pagination->create_links(),
-            'total_rows' => $config['total_rows'],
-            'start' => $start,
+            'besoin_data' => $this->Besoin_model->get_all(),
+            'start' => 0,
         );
         $data['page'] = $this->load->view('besoin/besoin_list', $data, TRUE);
         $this->load->view('layouts/main', $data, FALSE);
@@ -54,8 +35,6 @@ class Besoin extends CI_Controller
 		'nom_materiel' => $row->nom_materiel,
 		'prix_unitaire_besoin' => $row->prix_unitaire_besoin,
 		'details_besoin' => $row->details_besoin,
-		'date_creation_besoin' => $row->date_creation_besoin,
-		'etat_besoin' => $row->etat_besoin,
 	    );
             $data['page'] = $this->load->view('besoin/besoin_read', $data, TRUE);
             $this->load->view('layouts/main', $data, FALSE);
@@ -75,8 +54,6 @@ class Besoin extends CI_Controller
             'nom_materiel' => set_value('nom_materiel'),
             'prix_unitaire_besoin' => set_value('prix_unitaire_besoin'),
             'details_besoin' => set_value('details_besoin'),
-            'date_creation_besoin' => set_value('date_creation_besoin'),
-            'etat_besoin' => set_value('etat_besoin'),
 	    );
         $data['page'] =  $this->load->view('besoin/besoin_form', $data, TRUE);
         $this->load->view('layouts/main', $data, FALSE);
@@ -94,8 +71,6 @@ class Besoin extends CI_Controller
 		'nom_materiel' => $this->input->post('nom_materiel',TRUE),
 		'prix_unitaire_besoin' => $this->input->post('prix_unitaire_besoin',TRUE),
 		'details_besoin' => $this->input->post('details_besoin',TRUE),
-		'date_creation_besoin' => $this->input->post('date_creation_besoin',TRUE),
-		'etat_besoin' => $this->input->post('etat_besoin',TRUE),
 	    );
 
             $this->Besoin_model->insert($data);
@@ -117,8 +92,6 @@ class Besoin extends CI_Controller
 		'nom_materiel' => set_value('nom_materiel', $row->nom_materiel),
 		'prix_unitaire_besoin' => set_value('prix_unitaire_besoin', $row->prix_unitaire_besoin),
 		'details_besoin' => set_value('details_besoin', $row->details_besoin),
-		'date_creation_besoin' => set_value('date_creation_besoin', $row->date_creation_besoin),
-		'etat_besoin' => set_value('etat_besoin', $row->etat_besoin),
 	    );
             $data['page'] =  $this->load->view('besoin/besoin_form', $data, TRUE);
             $this->load->view('layouts/main', $data, FALSE);
@@ -140,8 +113,6 @@ class Besoin extends CI_Controller
 		'nom_materiel' => $this->input->post('nom_materiel',TRUE),
 		'prix_unitaire_besoin' => $this->input->post('prix_unitaire_besoin',TRUE),
 		'details_besoin' => $this->input->post('details_besoin',TRUE),
-		'date_creation_besoin' => $this->input->post('date_creation_besoin',TRUE),
-		'etat_besoin' => $this->input->post('etat_besoin',TRUE),
 	    );
 
             $this->Besoin_model->update($this->input->post('id_besoin', TRUE), $data);
@@ -170,8 +141,6 @@ class Besoin extends CI_Controller
 	$this->form_validation->set_rules('nom_materiel', 'nom materiel', 'trim|required');
 	$this->form_validation->set_rules('prix_unitaire_besoin', 'prix unitaire besoin', 'trim|required|numeric');
 	$this->form_validation->set_rules('details_besoin', 'details besoin', 'trim|required');
-	$this->form_validation->set_rules('date_creation_besoin', 'date creation besoin', 'trim|required');
-	$this->form_validation->set_rules('etat_besoin', 'etat besoin', 'trim|required');
 
 	$this->form_validation->set_rules('id_besoin', 'id_besoin', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');

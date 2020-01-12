@@ -25,13 +25,15 @@
     <link href="<?php echo base_url('assets/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet'); ?>">
 
     <!-- Custom Theme Style -->
-    <link href="<?php echo base_url('assets/build/css/custom.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/build/css/custom.css') ?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/vendors/bootstrap-daterangepicker/daterangepicker.css') ?>" rel="stylesheet">
     <?php if (isset($styles)){
         foreach ($styles as $style) {
             $style = base_url('assets/custom/css/'.$style);
             echo link_tag($style);
         }
     } ?>
+    <script src="<?php echo base_url('assets/build/js/sweetalert.all.min.js') ?>"></script>
 </head>
 
 <body class="nav-md">
@@ -69,7 +71,7 @@
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-line-chart"></i> Statistiques <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="index.html">Dashboard</a></li>
+                                    <li><a href="<?php echo site_url('dashboard/grh') ?>">Dashboard</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-user-md"></i> Agents <span class="fa fa-chevron-down"></span></a>
@@ -90,7 +92,7 @@
                             </li>
                             <li><a><i class="fa fa-building"></i> Postes <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('postes/index') ?>">Liste des postes</a></li>
+                                    <li><a href="<?php echo site_url('poste/index') ?>">Liste des postes</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -104,7 +106,7 @@
                             <li><a><i class="fa fa-bug"></i> Statistiques <span
                                             class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="e_commerce.html">E-commerce</a></li>
+                                    <li><a href="<?php echo site_url('dashboard/gst') ?>">Dashboard</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-building"></i> Demandes <span class="fa fa-chevron-down"></span></a>
@@ -114,9 +116,10 @@
                             </li>
                             <li><a><i class="fa fa-building"></i> Materiels <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="<?php echo site_url('demande/index') ?>">Liste des materiels</a></li>
-                                    <li><a href="<?php echo site_url('demande/create') ?>">Categories</a></li>
-                                    <li><a href="<?php echo site_url('demande/create') ?>">Fournisseurs</a></li>
+                                    <li><a href="<?php echo site_url('materiel/index') ?>">Liste des materiels</a></li>
+                                    <li><a href="<?php echo site_url('categorie_materiel/index') ?>">Categories</a></li>
+                                    <li><a href="<?php echo site_url('materiel/rupture') ?>">Rupture</a></li>
+                                    <li><a href="<?php echo site_url('materiel/uses') ?>">En utilisation</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-building"></i> Besoins <span class="fa fa-chevron-down"></span></a>
@@ -200,14 +203,6 @@
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="">
-                <div class="page-title">
-                    <div class="title_left">
-                        <h3><?php echo (isset($title)) ? ucwords($title) : "Tableau de bord" ?></h3>
-                    </div>
-
-                    <div class="title_right">
-                    </div>
-                </div>
 
                 <div class="clearfix"></div>
 
@@ -271,7 +266,9 @@
 <script src="<?php echo base_url('assets/vendors/morris.js/morris.min.js'); ?>"></script>
 <!-- bootstrap-progressbar -->
 <script src="<?php echo base_url('assets/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js'); ?>"></script>
-
+<!-- bootstrap-daterangepicker -->
+<script src="<?php echo  base_url('assets/vendors/moment/min/moment.min.js'); ?>"></script>
+<script src="<?php echo  base_url('assets/vendors/bootstrap-daterangepicker/daterangepicker.js'); ?>"></script>
 <!-- Custom Theme Scripts -->
 <script src="<?php echo base_url('assets/build/js/custom.js') ?>"></script>
 
@@ -281,5 +278,16 @@
         echo "<script type='application/javascript' src='$javascript'></script>";
     }
 } ?>
+
+<script>
+    function desactiver(id, val) {
+        $.get( "active/"+id+"/"+val, function( data ) {
+        }).done(function() {
+            console.log( "Modifier avec succes !" );
+        }).fail(function() {
+            alert( "Erreur inattendu ! Veuillez réesayer plutard..." );
+        });
+    }
+</script>
 </body>
 </html>

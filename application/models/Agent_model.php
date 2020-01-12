@@ -18,6 +18,7 @@ class Agent_model extends CI_Model
     // get all
     function get_all()
     {
+        $this->db->where('etat', 1);
         $this->db->order_by($this->id, $this->order);
         return $this->db->get($this->table)->result();
     }
@@ -25,12 +26,15 @@ class Agent_model extends CI_Model
     // get data by id
     function get_by_id($id)
     {
+        $this->db->where('etat', 1);
         $this->db->where($this->id, $id);
         return $this->db->get($this->table)->row();
     }
     
     // get total rows
     function total_rows($q = NULL) {
+
+        $this->db->where('etat', 1);
         $this->db->like('id_agent', $q);
         $this->db->or_like('nom', $q);
         $this->db->or_like('postnom', $q);
@@ -76,6 +80,7 @@ class Agent_model extends CI_Model
         $this->db->or_like('province', $q);
         $this->db->or_like('pays', $q);
         $this->db->or_like('departement_id_departement', $q);
+        $this->db->where('etat', 1);
         $this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }

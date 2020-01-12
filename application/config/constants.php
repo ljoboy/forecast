@@ -89,3 +89,9 @@ defined('CODERS')       OR define('CODERS', 'Carole & Sarah');
 defined('ADMIN_LEVEL')  OR define('ADMIN_LEVEL', 0);
 defined('GST_LEVEL')    OR define('GST_LEVEL', 1);
 defined('GRH_LEVEL')    OR define('GRH_LEVEL', 2);
+
+defined('TACHE_ENCOURS')        OR define('TACHE_ENCOURS', 0);
+defined('TACHE_FINI')           OR define('TACHE_FINI', 1);
+defined('TACHE_NON_COMMENCER')  OR define('TACHE_NON_COMMENCER', 2);
+defined('TACHE_DEPASSER')       OR define('TACHE_DEPASSER', 3);
+defined('TACHE_SUPPRIMER')      OR define('TACHE_SUPPRIMER', 9);

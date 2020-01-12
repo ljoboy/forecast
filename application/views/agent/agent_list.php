@@ -1,5 +1,5 @@
 
-        <div class="row" style="margin-bottom: 10px">
+        <div class="row">
             <div class="col-md-4">
                 <?php echo anchor(site_url('agent/create'),'Ajouter', 'class="btn btn-primary"'); ?>
             </div>
@@ -38,11 +38,12 @@
             </thead>
             <tbody>
                 <?php
+                $nb = 0;
                 foreach ($agent_data as $agent)
                 {
                     ?>
                     <tr>
-                        <td><?php echo ++$start ?></td>
+                        <td><?php echo ++$nb ?></td>
                         <td><?php echo strtoupper($agent->nom) ?></td>
                         <td><?php echo ucfirst($agent->postnom) ?></td>
                         <td><?php echo ucfirst($agent->prenom) ?></td>

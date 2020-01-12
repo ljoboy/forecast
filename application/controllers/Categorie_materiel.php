@@ -14,31 +14,8 @@ class Categorie_materiel extends CI_Controller
 
     public function index()
     {
-        $q = urldecode($this->input->get('q', TRUE));
-        $start = intval($this->input->get('start'));
-        
-        if ($q <> '') {
-            $config['base_url'] = base_url() . 'categorie_materiel/index.html?q=' . urlencode($q);
-            $config['first_url'] = base_url() . 'categorie_materiel/index.html?q=' . urlencode($q);
-        } else {
-            $config['base_url'] = base_url() . 'categorie_materiel/index.html';
-            $config['first_url'] = base_url() . 'categorie_materiel/index.html';
-        }
-
-        $config['per_page'] = 10;
-        $config['page_query_string'] = TRUE;
-        $config['total_rows'] = $this->Categorie_materiel_model->total_rows($q);
-        $categorie_materiel = $this->Categorie_materiel_model->get_limit_data($config['per_page'], $start, $q);
-
-        $this->load->library('pagination');
-        $this->pagination->initialize($config);
-
         $data = array(
-            'categorie_materiel_data' => $categorie_materiel,
-            'q' => $q,
-            'pagination' => $this->pagination->create_links(),
-            'total_rows' => $config['total_rows'],
-            'start' => $start,
+            'categorie_materiel_data' => $this->Categorie_materiel_model->get_all(),
         );
         $data['page'] = $this->load->view('categorie_materiel/categorie_materiel_list', $data, TRUE);
         $this->load->view('layouts/main', $data, FALSE);

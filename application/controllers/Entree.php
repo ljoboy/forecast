@@ -10,6 +10,7 @@ class Entree extends CI_Controller
         parent::__construct();
         $this->load->model('Entree_model');
         $this->load->library('form_validation');
+        $this->load->model('Materiel_model');
     }
 
     public function index()
@@ -62,48 +63,56 @@ class Entree extends CI_Controller
             $this->load->view('layouts/main', $data, FALSE);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('entree'));
+            redirect(site_url('materiel/index'));
         }
     }
 
-    public function create() 
+    public function create($id)
     {
-        $data = array(
-            'button' => 'Create',
-            'action' => site_url('entree/create_action'),
-	    'id_entree' => set_value('id_entree'),
-	    'quantite_entree' => set_value('quantite_entree'),
-	    'date_entree' => set_value('date_entree'),
-	    'date_enregistre' => set_value('date_enregistre'),
-	    'etat_entree' => set_value('etat_entree'),
-	    'prix_unitaire' => set_value('prix_unitaire'),
-	    'description_entree' => set_value('description_entree'),
-	    'materiel_code_materiel' => set_value('materiel_code_materiel'),
-	);
-        $data['page'] = $this->load->view('entree/entree_form', $data, TRUE);
-        $this->load->view('layouts/main', $data, FALSE);
+        $materiel =  $this->Materiel_model->get_by_id($id);
+        if ($materiel){
+            $data = array(
+                'action' => site_url('entree/create_action/'.$id),
+                'id_entree' => set_value('id_entree'),
+                'quantite_entree' => set_value('quantite_entree'),
+                'date_entree' => set_value('date_entree'),
+                'prix_unitaire' => set_value('prix_unitaire'),
+                'description_entree' => set_value('description_entree'),
+                'materiel_code_materiel' => set_value('materiel_code_materiel'),
+                'materiel' => $materiel
+            );
+            $data['page'] = $this->load->view('entree/entree_form', $data, TRUE);
+            $this->load->view('layouts/main', $data, FALSE);
+        }else{
+            redirect('materiel/index');
+        }
+
     }
     
-    public function create_action() 
+    public function create_action($id)
     {
         $this->_rules();
 
         if ($this->form_validation->run() == FALSE) {
-            $this->create();
+            $this->create($id);
         } else {
+            $code = $this->input->post('materiel_code_materiel',TRUE);
+            $qte =  $this->input->post('quantite_entree',TRUE);
+            $qte_mat = $this->input->post('qte_stock',TRUE);
             $data = array(
-		'quantite_entree' => $this->input->post('quantite_entree',TRUE),
-		'date_entree' => $this->input->post('date_entree',TRUE),
-		'date_enregistre' => $this->input->post('date_enregistre',TRUE),
-		'etat_entree' => $this->input->post('etat_entree',TRUE),
-		'prix_unitaire' => $this->input->post('prix_unitaire',TRUE),
-		'description_entree' => $this->input->post('description_entree',TRUE),
-		'materiel_code_materiel' => $this->input->post('materiel_code_materiel',TRUE),
-	    );
+                'quantite_entree' => $this->input->post('quantite_entree',TRUE),
+                'date_entree' => $this->input->post('date_entree',TRUE),
+                'prix_unitaire' => $this->input->post('prix_unitaire',TRUE),
+                'description_entree' => $this->input->post('description_entree',TRUE),
+                'materiel_code_materiel' => $this->input->post('materiel_code_materiel',TRUE),
+            );
 
             $this->Entree_model->insert($data);
+
+            $materiel = array('quantite_stock' => ($qte_mat + $qte));
+            $this->Materiel_model->update($code, $materiel);
             $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('entree'));
+            redirect(site_url('materiel/index'));
         }
     }
     
@@ -173,10 +182,8 @@ class Entree extends CI_Controller
     {
 	$this->form_validation->set_rules('quantite_entree', 'quantite entree', 'trim|required');
 	$this->form_validation->set_rules('date_entree', 'date entree', 'trim|required');
-	$this->form_validation->set_rules('date_enregistre', 'date enregistre', 'trim|required');
-	$this->form_validation->set_rules('etat_entree', 'etat entree', 'trim|required');
 	$this->form_validation->set_rules('prix_unitaire', 'prix unitaire', 'trim|required');
-	$this->form_validation->set_rules('description_entree', 'description entree', 'trim|required');
+	$this->form_validation->set_rules('description_entree', 'description entree', 'trim');
 	$this->form_validation->set_rules('materiel_code_materiel', 'materiel code materiel', 'trim|required');
 
 	$this->form_validation->set_rules('id_entree', 'id_entree', 'trim');

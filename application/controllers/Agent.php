@@ -14,31 +14,12 @@ class Agent extends CI_Controller
 
     public function index()
     {
-        $q = urldecode($this->input->get('q', TRUE));
-        $start = intval($this->input->get('start'));
-        
-        if ($q <> '') {
-            $config['base_url'] = base_url() . 'agent/index.html?q=' . urlencode($q);
-            $config['first_url'] = base_url() . 'agent/index.html?q=' . urlencode($q);
-        } else {
-            $config['base_url'] = base_url() . 'agent/index.html';
-            $config['first_url'] = base_url() . 'agent/index.html';
-        }
-
         $config['per_page'] = 10;
         $config['page_query_string'] = TRUE;
-        $config['total_rows'] = $this->Agent_model->total_rows($q);
-        $agent = $this->Agent_model->get_limit_data($config['per_page'], $start, $q);
-
-        $this->load->library('pagination');
-        $this->pagination->initialize($config);
+        $agent = $this->Agent_model->get_all();
 
         $data = array(
             'agent_data' => $agent,
-            'q' => $q,
-            'pagination' => $this->pagination->create_links(),
-            'total_rows' => $config['total_rows'],
-            'start' => $start,
         );
         $data['page'] = $this->load->view('agent/agent_list', $data, TRUE);
         $this->load->view('layouts/main', $data, FALSE);
@@ -49,25 +30,25 @@ class Agent extends CI_Controller
         $row = $this->Agent_model->get_by_id($id);
         if ($row) {
             $data = array(
-		'id_agent' => $row->id_agent,
-		'nom' => $row->nom,
-		'postnom' => $row->postnom,
-		'prenom' => $row->prenom,
-		'etat_civil' => $row->etat_civil,
-		'matricule' => $row->matricule,
-		'adresse' => $row->adresse,
-		'email' => $row->email,
-		'date_de_naissance' => $row->date_de_naissance,
-		'lieu_de_naissance' => $row->lieu_de_naissance,
-		'telephone' => $row->telephone,
-		'genre' => $row->genre,
-		'date_entree' => $row->date_entree,
-		'date_confirmation' => $row->date_confirmation,
-		'date_fin' => $row->date_fin,
-		'ville' => $row->ville,
-		'province' => $row->province,
-		'pays' => $row->pays,
-		'departement_id_departement' => $row->departement_id_departement,
+            'id_agent' => $row->id_agent,
+            'nom' => $row->nom,
+            'postnom' => $row->postnom,
+            'prenom' => $row->prenom,
+            'etat_civil' => $row->etat_civil,
+            'matricule' => $row->matricule,
+            'adresse' => $row->adresse,
+            'email' => $row->email,
+            'date_de_naissance' => $row->date_de_naissance,
+            'lieu_de_naissance' => $row->lieu_de_naissance,
+            'telephone' => $row->telephone,
+            'genre' => $row->genre,
+            'date_entree' => $row->date_entree,
+            'date_confirmation' => $row->date_confirmation,
+            'date_fin' => $row->date_fin,
+            'ville' => $row->ville,
+            'province' => $row->province,
+            'pays' => $row->pays,
+            'departement_id_departement' => $row->departement_id_departement,
 	    );
             $data['page'] = $this->load->view('agent/agent_read', $data, TRUE);
             $this->load->view('layouts/main', $data, FALSE);
@@ -330,12 +311,14 @@ class Agent extends CI_Controller
     {
         $this->load->model('User_poste_model');
         $this->load->model('Connaissances_linguistiques_model');
+        $this->load->model('Departement_model');
 
         $agent = $this->Agent_model->get_by_id($id);
         if ($agent){
             $data['agent'] = $agent;
             $data['poste'] = $this->User_poste_model->get_by_id($agent->id_agent);
             $data['langs'] = $this->Connaissances_linguistiques_model->get_by_user($agent->id_agent);
+            $data['departement'] = $this->Departement_model->get_by_id($agent->departement_id_departement);
 
             $data['page'] = $this->load->view('profil', $data, TRUE);
             $this->load->view('layouts/main', $data, FALSE);

@@ -18,6 +18,7 @@ class Tache_model extends CI_Model
     // get all
     function get_all()
     {
+        $this->db->where('etat !=', 9);
         $this->db->order_by($this->id, $this->order);
         return $this->db->get($this->table)->result();
     }
@@ -72,7 +73,14 @@ class Tache_model extends CI_Model
     // delete data
     function delete($id)
     {
-        $this->db->set('etat', 0);
+        $this->db->set('etat', 9);
+        $this->db->where($this->id, $id);
+        $this->db->update($this->table);
+    }
+
+    function finir($id)
+    {
+        $this->db->set('etat', 1);
         $this->db->where($this->id, $id);
         $this->db->update($this->table);
     }

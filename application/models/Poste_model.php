@@ -43,10 +43,10 @@ class Poste_model extends CI_Model
     function get_limit_data($limit, $start = 0, $q = NULL) {
         $this->db->order_by($this->id, $this->order);
         $this->db->like('id_poste', $q);
-	$this->db->or_like('nom_poste', $q);
-	$this->db->or_like('description', $q);
-	$this->db->or_like('type', $q);
-	$this->db->limit($limit, $start);
+        $this->db->or_like('nom_poste', $q);
+        $this->db->or_like('description', $q);
+        $this->db->or_like('type', $q);
+        $this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }
 
@@ -69,6 +69,12 @@ class Poste_model extends CI_Model
         $this->db->set('etat', 0);
         $this->db->where($this->id, $id);
         $this->db->update($this->table);
+    }
+
+    public function get_by_user_id($id)
+    {
+        $this->db->where($this->id, $id);
+        return $this->db->get($this->table)->row();
     }
 
 }
